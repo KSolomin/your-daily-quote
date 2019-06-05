@@ -1,0 +1,15 @@
+- name: Install Elastic Beats
+  become: true
+  hosts: flask_servers
+  roles: 
+    - ansible-role-filebeat
+  vars: 
+    - filebeat_prospectors:
+      - input_type: log
+        paths:
+          - "/var/www/logs/*.log"
+    - filebeat_output_logstash_enabled: false
+    - filebeat_output_elasticsearch_enabled: true
+    # TODO Eliminate this hardcode
+    - filebeat_output_elasticsearch_hosts:
+      - "52.18.121.26:9200"

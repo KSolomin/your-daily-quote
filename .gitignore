@@ -1,0 +1,9 @@
+venv
+terraform/terraform.tfvars
+.terraform
+servers.txt
+ansible.cfg
+inventory.yaml
+.vscode
+ansible-role-filebeat
+dbconfig.yaml

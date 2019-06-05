@@ -1,0 +1,11 @@
+- name: Start MongoDB
+  hosts: mongo_servers
+  become: true
+  tasks: 
+    - name: Start a MongoDB container
+      docker_container:
+        name: mongo_server
+        image: mongo:latest
+        ports:
+          - "27017:27017"
+        state: started

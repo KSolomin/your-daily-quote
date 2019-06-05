@@ -1,0 +1,5 @@
+db:
+  collection: collection
+  host: 18.202.20.167
+  name: quotes
+  port: 27017

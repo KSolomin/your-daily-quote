@@ -1,0 +1,29 @@
+- name: Start Flask app
+  become: true
+  hosts: flask_servers
+  tasks: 
+    - name: Create a directory for database config
+      file:
+        state: directory
+        path: "/var/dbconfig"
+
+    - name: Create a directory for logs
+      file:
+        state: directory
+        path: "/var/www/logs"
+  
+    - name: Upload a database config file
+      copy:
+        src: "{{ inventory_dir }}/../app/source/dbconfig.yaml"
+        dest: "/var/dbconfig"
+
+    - name: Start a Flask container
+      docker_container:
+        name: flask_server
+        image: coloradobeetle/your-daily-quote:1.0
+        state: started
+        ports:
+          - "5000:5000"
+        volumes:
+          - /var/dbconfig:/var/dbconfig
+          - /var/www/logs:/var/www/logs
