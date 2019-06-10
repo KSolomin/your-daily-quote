@@ -12,7 +12,8 @@ with open ("../../terraform/servers.txt", "r") as file:
             servers["mongo_server"] = line.split()[2]
         if not line.split()[0].find("elastic"):
             servers["elasticsearch"] = line.split()[2]
-
+        if not line.split()[0].find("kibana"):
+            servers["kibana"] = line.split()[2]
 
 # Reading Ansible inventory    
 with open ("../../ansible/inventory.yaml", "r") as file:
@@ -20,6 +21,9 @@ with open ("../../ansible/inventory.yaml", "r") as file:
     config["flask_servers"]["hosts"]["flask_server"]["ansible_host"] = servers["flask_server"]
     config["mongo_servers"]["hosts"]["mongo_server"]["ansible_host"] = servers["mongo_server"]
     config["elastic_servers"]["hosts"]["elasticsearch"]["ansible_host"] = servers["elasticsearch"]
+    config["kibana_servers"]["hosts"]["kibana"]["ansible_host"] = servers["kibana"]
+    config["flask_servers"]["vars"]["elasticsearch_host"] = servers["elasticsearch"]
+    config["kibana_servers"]["vars"]["elasticsearch_host"] = servers["elasticsearch"]
 
 # Writing to Ansible inventory
 with open ("../../ansible/inventory.yaml", "w") as file:

@@ -1,0 +1,13 @@
+- name: Install and Configure Kibana container
+  become: true
+  hosts: kibana_servers
+  tasks:
+    - name: Start an Kibana container
+      docker_container:
+        name: kibana
+        image: docker.elastic.co/kibana/kibana:7.1.1
+        state: started
+        ports:
+          - "5601:5601"
+        env:
+          ELASTICSEARCH_HOSTS: "http://{{ elasticsearch_host }}:9200"

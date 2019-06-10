@@ -10,6 +10,5 @@
           - "/var/www/logs/*.log"
     - filebeat_output_logstash_enabled: false
     - filebeat_output_elasticsearch_enabled: true
-    # TODO Eliminate this hardcode
     - filebeat_output_elasticsearch_hosts:
-      - "52.18.121.26:9200"
+      - "{{ elasticsearch_host }}:9200"
