@@ -1,5 +1,5 @@
 import os
-import pymongo
+from pymongo import MongoClient
 import random
 import yaml
 import logging
@@ -10,18 +10,14 @@ from flask import Flask
 logfile = "./logs/app.log"
 
 # For local execution:
-# dbconfigfile = "dbconfig.yaml"
+# dbconfigfile = "./source/dbconfig.yaml"
 dbconfigfile = "/var/dbconfig/dbconfig.yaml"
-db_host = "localhost"
-db_port = 27017
-db_name = "quotes"
-db_collection = "collection"
 
 app = Flask(__name__)
 logging.basicConfig(filename = logfile, level = logging.INFO)
 
 def readCollectionFromMongo(host, port, dbname):
-    db_client = pymongo.MongoClient(host, port)   
+    db_client = MongoClient(host, port)   
     database = db_client[dbname]
     collection = database["collection"]
     return collection
@@ -43,14 +39,16 @@ def readDataBaseConfig(dbconfigfile):
         except yaml.YAMLError as exc:
             app.logger.error("Error reading database config.")
 
-@app.route('/hello')
-def hello_world():
-    return 'Hello, World!'
+@app.route('/health')
+def health():
+    return '200'
 
 @app.route('/random')
-def random():
+def randomquote():
     collection = readCollectionFromMongo(db_host, db_port, db_name)
-    return 'Random Quote..'
+    rand = random.randrange(collection.count())
+    document = collection.find()[rand]
+    return "<p1>" + document["quote"] + " </p1><i>" + document["author"] + "</i>"
 
 # Starting application
 if __name__ == '__main__':

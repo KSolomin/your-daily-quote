@@ -25,6 +25,13 @@ resource "aws_security_group" "allow_elastic" {
     protocol = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    from_port = 5601
+    to_port = 5601
+    protocol = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 output "elasticsearch_address" {

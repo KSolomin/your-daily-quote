@@ -14,7 +14,7 @@ resource "aws_lb_target_group" "front_target_group" {
 
   health_check {
     port = 5000
-    path = "/hello"
+    path = "/health"
   }
 }
 
